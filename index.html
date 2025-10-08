@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Average Daily Calorie Supply per Person</title>
+  <title>Global Obesity Prevalence</title>
   <script src="https://cdn.jsdelivr.net/npm/vega@5.22.1"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.2.0"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.20.8"></script>
 </head>
 <body>
-  <h2 style="text-align:center;">Average Daily Calorie Supply per Person (2022)</h2>
+  <h2 style="text-align:center;">Prevalence of Obesity Among Adults (BMI ≥ 30)</h2>
   <div id="vis" style="display:flex; justify-content:center;"></div>
 
   <script type="text/javascript">
@@ -25,26 +25,26 @@
           "lookup": "properties.ISO_A3",
           "from": {
             "data": {
-              "url": "https://raw.githubusercontent.com/Whatdad0gdoin/FIT3179Ass2/main/data/daily-per-capita-caloric-supply.csv",
+              "url": "https://raw.githubusercontent.com/Whatdad0gdoin/FIT3179Ass2/main/data/obesitydataWHO.csv",
               "format": {"type": "csv"}
             },
-            "key": "Code",
-            "fields": ["Entity", "Year", "Daily calorie supply per person"]
+            "key": "SpatialDimValueCode",
+            "fields": ["Location", "Period", "FactValueNumeric"]
           }
         }
       ],
       "mark": {"type": "geoshape", "stroke": "white"},
       "encoding": {
         "color": {
-          "field": "Daily calorie supply per person",
+          "field": "FactValueNumeric",
           "type": "quantitative",
-          "scale": {"scheme": "blues"},
-          "title": "Calories (kcal/day)"
+          "scale": {"scheme": "reds"},
+          "title": "Obesity rate (%)"
         },
         "tooltip": [
-          {"field": "Entity", "type": "nominal", "title": "Country"},
-          {"field": "Daily calorie supply per person", "type": "quantitative", "format": ".0f"},
-          {"field": "Year", "type": "ordinal"}
+          {"field": "Location", "type": "nominal", "title": "Country"},
+          {"field": "FactValueNumeric", "type": "quantitative", "format": ".1f", "title": "Obesity (%)"},
+          {"field": "Period", "type": "ordinal", "title": "Year"}
         ]
       }
     };
