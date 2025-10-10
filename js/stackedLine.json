@@ -1,0 +1,77 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 770,
+  "height": 450,
+  "title": "Average Obesity Rate Over Time by Region",
+  "data": {
+    "url": "data/obesitydataWHO.csv",
+    "format": {"type": "csv"}
+  },
+  "params": [
+    {
+      "name": "RegionSelect",
+      "bind": {
+        "input": "select",
+        "options": [
+          null,
+          "Africa",
+          "Americas",
+          "Eastern Mediterranean",
+          "Europe",
+          "South-East Asia",
+          "Western Pacific"
+        ],
+        "labels": [
+          "All Regions",
+          "Africa",
+          "Americas",
+          "Eastern Mediterranean",
+          "Europe",
+          "South-East Asia",
+          "Western Pacific"
+        ],
+        "name": "Select Region: "
+      },
+      "value": null
+    }
+  ],
+  "transform": [
+    {"filter": "datum.FactValueNumeric != null && datum.Period >= 1980"},
+    {"filter": "RegionSelect == null || datum.ParentLocation == RegionSelect"}
+  ],
+  "mark": {"type": "area", "line": true, "opacity": 0.8},
+  "encoding": {
+    "x": {
+      "field": "Period",
+      "type": "ordinal",
+      "title": "Year",
+      "axis": {"labelAngle": 0}
+    },
+    "y": {
+      "aggregate": "mean",
+      "field": "FactValueNumeric",
+      "type": "quantitative",
+      "title": "Average Obesity Rate (%)",
+      "stack": "zero"
+    },
+    "color": {
+      "field": "ParentLocation",
+      "type": "nominal",
+      "title": "Region"
+    },
+    "tooltip": [
+      {"field": "ParentLocation", "title": "Region"},
+      {"field": "Period", "title": "Year"},
+      {
+        "field": "FactValueNumeric",
+        "aggregate": "mean",
+        "format": ".1f",
+        "title": "Average Obesity (%)"
+      }
+    ]
+  },
+  "config": {
+    "legend": {"titleFontSize": 12, "labelFontSize": 11},
+    "title": {"fontSize": 18, "fontWeight": "bold", "color": "#c62828"}
+  }
+}

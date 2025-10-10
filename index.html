@@ -1,74 +1,54 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Global Obesity Prevalence (BMI ≥ 30)</title>
-  <script src="https://cdn.jsdelivr.net/npm/vega@5.22.1"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.2.0"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.20.8"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Global Obesity Visualisation</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+
+  <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
-  <h2 style="text-align:center;">Prevalence of Obesity Among Adults (BMI ≥ 30)</h2>
-  <div id="vis" style="display:flex; justify-content:center;"></div>
 
-  <script type="text/javascript">
-    const spec = {
-      "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-      "width": 800,
-      "height": 400,
-      "projection": {"type": "equalEarth"},
-      "params": [
-        {
-          "name": "Year_selection",
-          "value": 2022,
-          "bind": {
-            "input": "range",
-            "min": 2000,
-            "max": 2022,
-            "step": 1,
-            "name": "Year: "
-          }
-        }
-      ],
-      "data": {
-        "url": "https://raw.githubusercontent.com/Whatdad0gdoin/FIT3179Ass2/main/js/ne_110m_admin_0_countries.topojson",
-        "format": {"type": "topojson", "feature": "ne_110m_admin_0_countries"}
-      },
-      "transform": [
-        {
-          "lookup": "properties.ISO_A3",
-          "from": {
-            "data": {
-              "url": "https://raw.githubusercontent.com/Whatdad0gdoin/FIT3179Ass2/main/data/obesitydataWHO.csv",
-              "format": {"type": "csv"}
-            },
-            "key": "SpatialDimValueCode",
-            "fields": ["Location", "Period", "FactValueNumeric"]
-          }
-        },
-        {"filter": "datum.Period == Year_selection"}
-      ],
-      "mark": {"type": "geoshape", "stroke": "white"},
-      "encoding": {
-        "color": {
-          "field": "FactValueNumeric",
-          "type": "quantitative",
-          "scale": {"scheme": "reds"},
-          "title": "Obesity rate (%)"
-        },
-        "tooltip": [
-          {"field": "Location", "type": "nominal", "title": "Country"},
-          {"field": "FactValueNumeric", "type": "quantitative", "format": ".1f", "title": "Obesity (%)"},
-          {"field": "Period", "type": "ordinal", "title": "Year"}
-        ]
-      },
-      "title": {
-        "text": "Global Obesity Prevalence by Country",
-        "fontSize": 18,
-        "anchor": "middle"
-      }
-    };
+  <header>
+    <h1>Global Obesity and Calorie Supply Visualisation</h1>
+    <p>Exploring how global obesity trends relate to food consumption and energy intake from 1990 to 2022</p>
+  </header>
 
-    vegaEmbed("#vis", spec, {mode: "vega-lite"}).then(console.log).catch(console.warn);
+  <main>
+    <section>
+      <h2>Global Obesity Prevalence</h2>
+      <p>This chart shows the obesity rates around the world</p>
+
+      <div class="map-container">
+        <div id="mapVis"></div>
+        <div class="map-text">
+          <p>zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
+            zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
+            zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Average Obesity Over the Years</h2>
+      <p>This chart compares each country’s average daily calorie supply with its adult obesity rate</p>
+      <div id="stackedLineVis"></div>
+    </section>
+
+    <footer>
+      <p>Created by Maximilian Djohan</p>
+    </footer>
+  </main>
+
+  <script>
+    vegaEmbed("#mapVis", "js/map.json");
+    vegaEmbed("#stackedLineVis", "js/stackedLine.json");
   </script>
+
 </body>
 </html>
