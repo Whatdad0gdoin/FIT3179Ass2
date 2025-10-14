@@ -1,0 +1,72 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": "Change in Global Food Type Consumption (1990 vs 2022)",
+  "width": 700,
+  "height": 400,
+  "data": {
+    "url": "data/diet.csv",
+    "format": {"type": "csv"}
+  },
+  "transform": [
+    {
+      "filter": "datum.Year == 1990 || datum.Year == 2022"
+    },
+    {
+      "fold": [
+        "alcoholic_beverages",
+        "sugar",
+        "oils_and_fats",
+        "meat",
+        "dairy_and_eggs",
+        "fruits_and_vegetables",
+        "starchy_roots",
+        "pulses",
+        "cereals_and_grains"
+      ],
+      "as": ["FoodType", "Value"]
+    },
+    {
+      "aggregate": [{"op": "mean", "field": "Value", "as": "AvgValue"}],
+      "groupby": ["FoodType", "Year"]
+    },
+    {
+      "calculate": "datum.Year == 1990 ? -datum.AvgValue : datum.AvgValue",
+      "as": "DivergingValue"
+    }
+  ],
+  "mark": {"type": "bar"},
+  "encoding": {
+    "y": {
+      "field": "FoodType",
+      "type": "nominal",
+      "title": "Food Type",
+      "sort": "-x"
+    },
+    "x": {
+      "field": "DivergingValue",
+      "type": "quantitative",
+      "title": "Average Consumption",
+      "axis": {
+        "title": "Average Food Consumption",
+        "grid": false,
+        "labelExpr": "abs(datum.value)"
+      }
+    },
+    "color": {
+      "field": "Year",
+      "type": "nominal",
+      "scale": {"domain": [1990, 2022], "range": ["#6495ED", "#FF7F50"]},
+      "legend": {"title": "Year"}
+    },
+    "tooltip": [
+      {"field": "FoodType", "title": "Food Type"},
+      {"field": "Year", "title": "Year"},
+      {
+        "field": "AvgValue",
+        "title": "Average Consumption",
+        "format": ".2f"
+      }
+    ]
+  },
+  "config": {"view": {"stroke": null}}
+}

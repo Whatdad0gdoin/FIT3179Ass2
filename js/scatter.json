@@ -1,0 +1,76 @@
+    {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 500,
+  "height": 450,
+  "title": {
+    "text": "Daily Calorie Supply vs Obesity Rate (2022)",
+    "fontSize": 18,
+    "fontWeight": "bold",
+    "color": "#c62828"
+  },
+
+  "data": {
+    "url": "data/obesitydataWHO.csv",
+    "format": {"type": "csv"}
+  },
+
+  "transform": [
+    {"filter": "datum.Period == 2022 && datum.FactValueNumeric != null"},
+    {
+      "lookup": "Location",
+      "from": {
+        "data": {
+          "url": "data/daily-per-capita-caloric-supply.csv",
+          "format": {"type": "csv"}
+        },
+        "key": "Entity",
+        "fields": ["Daily calorie supply per person"]
+      },
+      "as": ["Calories"]
+    },
+    {"filter": "datum.Calories != null"}
+  ],
+
+  "layer": [
+    {
+      "mark": {"type": "point", "filled": true, "size": 80, "opacity": 0.8, "stroke": "white"},
+      "encoding": {
+        "x": {
+          "field": "Calories",
+          "type": "quantitative",
+          "title": "Average Daily Calorie Supply per Person"
+        },
+        "y": {
+          "field": "FactValueNumeric",
+          "type": "quantitative",
+          "title": "Adult Obesity Rate (%)"
+        },
+        "color": {
+          "field": "ParentLocation",
+          "type": "nominal",
+          "title": "Region",
+          "legend": {"orient": "bottom", "direction": "horizontal"}
+        },
+        "tooltip": [
+          {"field": "Location", "title": "Country"},
+          {"field": "ParentLocation", "title": "Region"},
+          {"field": "Calories", "type": "quantitative", "format": ".0f", "title": "Calories per Person"},
+          {"field": "FactValueNumeric", "type": "quantitative", "format": ".1f", "title": "Obesity (%)"}
+        ]
+      }
+    },
+    {
+      "mark": {"type": "line", "color": "black", "strokeDash": [5,5]},
+      "transform": [{"regression": "FactValueNumeric", "on": "Calories"}],
+      "encoding": {
+        "x": {"field": "Calories", "type": "quantitative"},
+        "y": {"field": "FactValueNumeric", "type": "quantitative"}
+      }
+    }
+  ],
+
+  "config": {
+    "axis": {"labelFontSize": 11, "titleFontSize": 13},
+    "legend": {"labelFontSize": 11, "titleFontSize": 12}
+  }
+}

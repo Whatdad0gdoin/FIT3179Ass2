@@ -20,34 +20,105 @@
   </header>
 
   <main>
-    <section>
-      <h2>Global Obesity Prevalence</h2>
-      <p>This chart shows the obesity rates around the world</p>
+    <section id="intro-section">
+      <div class="text-section">
+        <h2>Global Overview</h2>
+        <p>
+          Obesity has become one of the most pressing global health challenges of the 21st century. 
+          Since 1980, worldwide obesity rates have more than doubled, affecting both developed and 
+          developing nations. According to the World Health Organization (WHO), over 650 million adults 
+          were classified as obese in 2022 which represents nearly <strong>16% of the global population</strong>. 
+          The rise of obesity is strongly linked to changes in diet, lifestyles, and urbanisation. 
+          While obesity was once considered a problem only in high-income countries, it is now increasingly 
+          prevalent in low and middle income nations as well.
+        </p>
+      </div>
 
+    <section id="map-section">
+      <h2>Global Obesity Prevalence (1990–2022)</h2>
       <div class="map-container">
         <div id="mapVis"></div>
         <div class="map-text">
-          <p>zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
-            zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
-            zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz</p>
+          <h3>Insights</h3>
+           <p>In 2022, <strong>Egypt</strong> recorded the <strong>highest adult obesity rate at 57.1%</strong>, 
+            followed by nations in the <strong>Americas</strong> and <strong>Western Pacific</strong> regions. 
+            Countries across <strong>Africa</strong> and <strong>South-East Asia</strong> still show comparatively 
+            lower obesity rates but have experienced steady increases over time. 
+            This global map highlights the spatial inequality and ongoing rise of obesity worldwide.</p>
         </div>
       </div>
     </section>
 
-    <section>
-      <h2>Average Obesity Over the Years</h2>
-      <p>This chart compares each country’s average daily calorie supply with its adult obesity rate</p>
-      <div id="stackedLineVis"></div>
+    <section id="trend-section">
+      <h2>Average Obesity Rate Over Time by Region</h2>
+
+      <div class="trend-container">
+        <div id="stackedAreaVis"></div>
+
+        <div class="trend-text">
+          <h3>Insights</h3>
+          <p>Obesity rates have increased consistently across all regions over the past
+            four decades. Europe and the Americas lead with the highest averages, while
+            regions like Africa and South-East Asia show steady but slower growth.
+            The dropdown filter helps highlight regional differences in this global trend.</p>
+
+          <p>These changes reflect broader shifts in diet, lifestyle, and economic
+            development. Calorie-dense diets and reduced physical activity are key
+            contributors to these rising patterns.</p>
+        </div>
+    </section>
+
+    <section id="scatter-section">
+      <h2>Calorie Intake and Obesity Relationship (2022)</h2>
+
+      <div class="scatter-container">
+        <div class="scatter-text">
+          <h3>Insights</h3>
+          <p>There is a clear positive relationship between calorie supply and obesity rates.
+          High-income regions such as Europe and the Americas cluster toward higher values,
+          while low-income regions remain on the lower end of both calorie intake and obesity.</p>
+
+          <p>This visualisation highlights how dietary energy availability is a major factor 
+          behind regional differences in obesity prevalence. The regression line shows a 
+          strong upward correlation between calorie consumption and obesity rates.</p>
+        </div>
+
+        <div id="scatterVis"></div>
+      </div>
+
+    </section>
+
+    </section>
+
+    <section id="gender-section">
+      <h2>Gender Distribution of Obesity (2022)</h2>
+
+      <div class="trend-container">
+
+        <div id="genderVis"></div>
+
+        <div class="gender-paragraph">
+          <p>
+            In 2022, <strong>females</strong> had a higher average obesity rate globally 
+            (around <strong>19.2%</strong>) compared to <strong>13.5%</strong> among males.
+            This reflects both biological and lifestyle differences that influence 
+            weight gain patterns worldwide.
+          </p>
+        </div>
+      </div>
     </section>
 
     <footer>
-      <p>Created by Maximilian Djohan</p>
+      <p>Maximilian Djohan | FIT3179 Data Visualisation | 2025</p>
     </footer>
   </main>
 
+
   <script>
     vegaEmbed("#mapVis", "js/map.json");
-    vegaEmbed("#stackedLineVis", "js/stackedLine.json");
+    vegaEmbed("#stackedAreaVis", "js/stackedArea.json");
+    vegaEmbed("#scatterVis", "js/scatter.json");
+    vegaEmbed("#genderVis", "js/pie.json");
   </script>
 
 </body>
