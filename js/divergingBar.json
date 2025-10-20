@@ -1,16 +1,20 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "title": "Change in Global Food Type Consumption (1990 vs 2022)",
-  "width": 700,
+  "title": {
+    "text": "Change in Global Food Type Consumption (1990 vs 2022)",
+    "fontSize": 18,
+    "fontWeight": "bold",
+    "color": "#c62828"
+  },
+  "width": 850,
   "height": 400,
   "data": {
     "url": "data/diet.csv",
     "format": {"type": "csv"}
   },
   "transform": [
-    {
-      "filter": "datum.Year == 1990 || datum.Year == 2022"
-    },
+    { "calculate": "toNumber(datum.Year)", "as": "YearNum" },
+    { "filter": "datum.YearNum == 1990 || datum.YearNum == 2022" },
     {
       "fold": [
         "alcoholic_beverages",
@@ -27,46 +31,59 @@
     },
     {
       "aggregate": [{"op": "mean", "field": "Value", "as": "AvgValue"}],
-      "groupby": ["FoodType", "Year"]
+      "groupby": ["FoodType", "YearNum"]
     },
     {
-      "calculate": "datum.Year == 1990 ? -datum.AvgValue : datum.AvgValue",
+      "calculate": "datum.YearNum == 1990 ? -datum.AvgValue : datum.AvgValue",
       "as": "DivergingValue"
+    },
+    {
+      "joinaggregate": [
+        {"op": "max", "field": "AvgValue", "as": "MaxValue"},
+        {"op": "min", "field": "AvgValue", "as": "MinValue"}
+      ],
+      "groupby": ["FoodType"]
+    },
+    {
+      "calculate": "abs(datum.MaxValue - datum.MinValue)",
+      "as": "ChangeAmount"
     }
   ],
-  "mark": {"type": "bar"},
-  "encoding": {
-    "y": {
-      "field": "FoodType",
-      "type": "nominal",
-      "title": "Food Type",
-      "sort": "-x"
-    },
-    "x": {
-      "field": "DivergingValue",
-      "type": "quantitative",
-      "title": "Average Consumption",
-      "axis": {
-        "title": "Average Food Consumption",
-        "grid": false,
-        "labelExpr": "abs(datum.value)"
+  "layer": [
+    {
+      "mark": "bar",
+      "encoding": {
+        "y": {
+          "field": "FoodType",
+          "type": "nominal",
+          "title": "Food Type",
+          "sort": {"field": "ChangeAmount", "order": "descending"}
+        },
+        "x": {
+          "field": "DivergingValue",
+          "type": "quantitative",
+          "title": "Average Consumption (kg/person/year)",
+          "axis": {"labelExpr": "abs(datum.value)"}
+        },
+        "color": {
+          "field": "YearNum",
+          "type": "nominal",
+          "scale": {"domain": [1990, 2022], "range": ["#64b5f6", "#ef5350"]},
+          "legend": {"title": "Year", "orient": "bottom"}
+        },
+        "tooltip": [
+          {"field": "FoodType", "title": "Food Type"},
+          {"field": "YearNum", "title": "Year"},
+          {"field": "AvgValue", "title": "Average Consumption", "format": ".2f"},
+          {"field": "ChangeAmount", "title": "Change (1990→2022)", "format": ".2f"}
+        ]
       }
     },
-    "color": {
-      "field": "Year",
-      "type": "nominal",
-      "scale": {"domain": [1990, 2022], "range": ["#6495ED", "#FF7F50"]},
-      "legend": {"title": "Year"}
-    },
-    "tooltip": [
-      {"field": "FoodType", "title": "Food Type"},
-      {"field": "Year", "title": "Year"},
-      {
-        "field": "AvgValue",
-        "title": "Average Consumption",
-        "format": ".2f"
-      }
-    ]
-  },
-  "config": {"view": {"stroke": null}}
+    { "mark": {"type": "rule", "color": "black"}, "encoding": {"x": {"datum": 0}} }
+  ],
+  "config": {
+    "view": {"stroke": "transparent"},
+    "axis": {"labelFontSize": 12, "titleFontSize": 13},
+    "legend": {"labelFontSize": 11, "titleFontSize": 12}
+  }
 }

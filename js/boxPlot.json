@@ -1,0 +1,56 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 450,
+  "height": 300,
+  "title": {
+    "text": "Global Obesity Distribution by Gender (2022)",
+    "fontSize": 18,
+    "fontWeight": "bold",
+    "color": "#c62828"
+  },
+  "data": {
+    "url": "data/obesitydataWHO.csv",
+    "format": {"type": "csv"}
+  },
+  "transform": [
+    {
+      "filter": "datum.Period == 2022 && (datum.Dim1 == 'Male' || datum.Dim1 == 'Female') && datum.FactValueNumeric != null"
+    }
+  ],
+  "mark": "boxplot",
+  "encoding": {
+    "x": {
+      "field": "Dim1",
+      "type": "nominal",
+      "title": "Gender",
+      "axis": {
+        "labelFontSize": 12, 
+        "titleFontSize": 13, 
+        "labelAngle": 0
+      }
+    },
+    "y": {
+      "field": "FactValueNumeric",
+      "type": "quantitative",
+      "title": "Obesity Rate (%)",
+      "axis": {
+        "labelFontSize": 12, 
+        "titleFontSize": 13
+      }
+    },
+    "color": {
+      "field": "Dim1",
+      "type": "nominal",
+      "scale": {"range": ["#f06292", "#64b5f6"]},
+      "legend": null
+    },
+    "tooltip": [
+      {"field": "Dim1", "title": "Gender"},
+      {"field": "FactValueNumeric", "type": "quantitative", "format": ".1f", "title": "Obesity (%)"}
+    ]
+  },
+  "config": {
+    "view": {"stroke": "transparent"},
+    "title": {"fontSize": 18, "fontWeight": "bold", "color": "#c62828"}
+  }
+}

@@ -90,24 +90,55 @@
  
     <section id="gender-section">
       <h2>Gender Distribution of Obesity (2022)</h2>
-
-      <div class="trend-container">
-
-        <div id="genderVis"></div>
-
-        <div class="gender-paragraph">
+      <div class="gender-container">
+        <div id="boxPlotVis"></div>
+        <div class="gender-text">
+          <h3>Insights</h3>
           <p>
-            In 2022, <strong>females</strong> had a higher average obesity rate globally 
-            (around <strong>19.2%</strong>) compared to <strong>13.5%</strong> among males.
-            This reflects both biological and lifestyle differences that influence 
-            weight gain patterns worldwide.
+            In 2022, <strong>females</strong> exhibited a higher global obesity rate, with the median being around 
+            <strong>15.2%</strong>, compared to <strong>19.5%</strong> among <strong>males</strong>. 
+            This pattern shows how biological and lifestyle factors differ between genders, 
+            influencing body composition and weight gain worldwide.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="diet-section">
+      <h2>Change in Global Food Type Consumption (1990 vs 2022)</h2>
+      <div class="trend-container">
+        <div id="divergingVis"></div>
+        <div class="diet-text">
+          <h3>Insights</h3>
+          <p>
+            Between 1990 and 2022, global diets shifted substantially
+            with higher consumption of everything, the highest change being oils and fats with an increase of 112.4 kg/person/year. 
+            This reflects the increase in calorie consumption over the years which leads to increase in obesity rates.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="summary-section">
+      <h2>Summary and Key Takeaways</h2>
+      <div class="summary-container">
+        <div class="summary-text">
+          <h3>Summary</h3>
+          <p>
+            The global rise in obesity from 1990 to 2022 could be related to increased calorie intake and shifts in dietary patterns.
+            These shifts in dietary patterns can be seen due to the rise in consumption of processed food and high calorie dense foods.
+            As such, this directly correlates to the increase in calorie consumption per person per year which also links to the increase in obesity rates.
+          </p>
+
+          <p>
+            Together, these findings highlight the need for balanced nutrition policies
+            and public health strategies which aims at promoting sustainable diets and active lifestyles globally.
           </p>
         </div>
       </div>
     </section>
 
     </section>
-
     <footer>
       <p>Maximilian Djohan | FIT3179 Data Visualisation | 2025</p>
     </footer>
@@ -118,7 +149,8 @@
     vegaEmbed("#mapVis", "js/map.json");
     vegaEmbed("#stackedAreaVis", "js/stackedArea.json");
     vegaEmbed("#scatterVis", "js/scatter.json");
-    vegaEmbed("#genderVis", "js/pie.json");
+    vegaEmbed("#boxPlotVis", "js/boxPlot.json");
+    vegaEmbed("#divergingVis", "js/divergingBar.json");
   </script>
 
 </body>
